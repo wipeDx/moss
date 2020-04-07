@@ -1,5 +1,5 @@
-# BA-MOSS
-This project is my bachelor's thesis.
+# Meeting-Organizer-Scheduling-Software
+An Angular (8) application trying to solve the manual labor of scheduling meetings.
 
 ## Requirements
 * A functional MongoDB setup, preferrably with authentication

@@ -68,7 +68,7 @@ Once the database is up and running, the back-end needs to be set up.
 
 For this step, Node.JS and npm have to be installed.
 
-1. If not done, clone the repository `git@gitlab.rlp.net:rhagmaie/meeting-organizer-scheduling-software.git`
+1. If not done already, clone the repository `git@github.com:wipeDx/moss.git`
 2. Change directories into `moss-backend`
 3. Run `npm install`
 4. Copy example.env to .env `cp example.env .env`

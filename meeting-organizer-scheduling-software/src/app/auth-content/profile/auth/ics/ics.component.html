@@ -1,0 +1,38 @@
+<div modal class="modal fade" id="icsInputModal" tabindex="-1" role="dialog" aria-labelledby="icsInputModalTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Adding an ICS Feed</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <form [formGroup]="icsForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="icsFeedNameid">Name</label>
+            <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': loading && this.errorName }"
+              class="form-control" name="icsFeedNameid" id="icsFeedNameid" aria-describedby="icsFeedNameHelp" placeholder="Give your feed a name">
+            <small id="icsFeedNameHelp" class="form-text text-muted">Give your ICS Feed a name</small>
+            <div *ngIf="loading && this.errorName" class="invalid-feedback">
+              <div *ngIf="this.errorName.required">Name is required</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="icsFeedURLid">ICS Feed URL</label>
+            <input type="text" formControlName="feed" [ngClass]="{ 'is-invalid': loading && this.errorFeed }"
+              class="form-control" name="icsFeedURLid" id="icsFeedURLid" aria-describedby="icsFeedURLHelpId" placeholder="Enter your ICS feed URL here">
+            <small id="icsFeedURLHelpId" class="form-text text-muted">You can get the ICS Feed URL from your calendar</small>
+            <div *ngIf="loading && this.errorFeed" class="invalid-feedback">
+              <div *ngIf="this.errorFeed.required">Feed URL is required</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)='onCancel()'>Cancel</button>
+          <button type="submit" class="btn btn-primary">Add</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="row">
+  <h5 class="col-sm-12">{{ 'Danger Zone' | translate }}</h5>
+</div>
+<div class="row">
+  <div class="col-md-12">
+    <div class="alert alert-danger" role="alert">
+      {{ 'danger_zone_warning' | translate}}
+    </div>
+  </div>
+</div>
+<div class="form-group row justify-content-center">
+  <div class="col-sm-auto">
+    <button type="button" class="btn btn-danger btn-block" data-toggle="modal" data-target="#dangerDeleteAccountModal">
+      <fa-icon [icon]="iconDelete"></fa-icon>
+      {{ 'Permanently delete account' | translate }}
+    </button>
+  </div>
+</div>
+
+<!-- Danger delete modal https://getbootstrap.com/docs/4.3/components/modal/ -->
+<div class="modal fade" id="dangerDeleteAccountModal" tabindex="-1" role="dialog" aria-labelledby="dangerDeleteAccountModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dangerDeleteAccountModalTitle">{{ 'Permanently deleting your account' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ 'Deleting your account is irreversable!' | translate }}<br>
+        {{ 'It will delete all your groups, events that you are part of as well as any traces to you.' | translate }}
+        <br>
+        <form [formGroup]="this.deleteAccountForm">  
+          <div class="form-group">
+            <label for="dangerZoneDeleteAccountPassword">{{ 'Password' | translate }}</label>
+            <input formControlName="password" type="password"
+              class="form-control" name="dangerZoneDeleteAccountPassword" id="dangerZoneDeleteAccountPassword" 
+              aria-describedby="helpDangerZoneDeleteAccountPassword" placeholder="{{ 'Validate your password' | translate }}"
+              [ngClass]="{ 'is-invalid': submitted && this.errorPassword }">
+            <small id="helpDangerZoneDeleteAccountPassword" class="form-text text-muted">{{ 'Providing your password is mandatory in order to delete your account' | translate }}</small>
+            <div *ngIf="submitted && this.errorPassword" class="invalid-feedback">
+              <div *ngIf="this.errorPassword.required">{{ 'Password is required' | translate }}</div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <fa-icon [icon]="iconCancel"></fa-icon>
+          {{ 'Cancel' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onSubmit()">
+          <fa-icon [icon]="iconDelete"></fa-icon>
+          {{ 'Permanently delete account' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

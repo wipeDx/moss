@@ -1,0 +1,137 @@
+<app-full-page-loading-spinner [loading]="loading"></app-full-page-loading-spinner>
+
+<div class="container">
+  <div class="row justify-content-between">
+    <div class="col-sm-6 col-md-4">
+      <h2>{{this.viewedMeeting.name}}</h2>
+      <h6>{{ 'Created by' | translate }}: {{this.viewedMeeting.creator.name}}</h6>
+    </div>
+    <div class="col-sm-6 col-md-4">
+      <div class="row {{ownsMeeting? 'justify-content-end' : 'justify-content-center' }}">
+        <div class="col-sm-auto">
+          <button type="button" *ngIf="!hidingDetails" class="btn btn-block btn-primary" (click)="toggleDetails()">
+            <fa-icon [icon]="iconDetailsHide"></fa-icon>
+            {{ 'Hide details' | translate }}
+          </button>
+          <button type="button" *ngIf="hidingDetails" class="btn btn-block btn-primary" (click)="toggleDetails()">
+            <fa-icon [icon]="iconDetailsShow"></fa-icon>
+            {{ 'Show details' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="col-sm-2" style="margin-right: 0px" *ngIf="!ownsMeeting">
+      
+    </div> -->
+    <div class="col-sm-12 col-md-4" *ngIf="!ownsMeeting">
+      <div class="row justify-content-end">
+        <div class="col-sm-12 col-md-12">
+          <input type="text" class="form-control-sm form-control" id="custom-answer" [(ngModel)]="this.customAnswer" (input)="this.setCustomAnswerChanged()" placeholder="{{ 'Optional note' | translate }}">
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <button type="button" *ngIf="!(this.isDeclined && this.customAnswerChanged)" class="btn btn-block btn-danger" (click)="onDecline()" [disabled]="this.isDeclined">
+            <fa-icon [icon]="iconDecline"></fa-icon> {{ 'Decline' | translate }}
+          </button>
+          <button type="button" *ngIf="this.isDeclined && this.customAnswerChanged" class="btn btn-block btn-danger" (click)="onUpdateDecline()">
+            <fa-icon [icon]="iconDecline"></fa-icon> {{ 'Update' | translate }}
+          </button>
+        </div>
+        <div class="col-sm-6 col-md-6">
+          <button type="button" *ngIf="this.isAccepted && this.customAnswerChanged" class="btn btn-block btn-success" (click)="onUpdateAccept()">
+            <fa-icon [icon]="iconAccept"></fa-icon> {{ 'Update' | translate }}
+          </button>
+          <button type="button" *ngIf="!(this.isAccepted && this.customAnswerChanged)" class="btn btn-block btn-success" (click)="onAccept()" [disabled]="this.isAccepted">
+            <fa-icon [icon]="iconAccept"></fa-icon> {{ 'Accept' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row" *ngIf="!hidingDetails">
+    <div class="col-md-6">
+      <div class="form-group">
+        <label for="meetingComment">{{ 'Additional comments' | translate }}</label>
+        <textarea name="meetingComment" id="meetingComment" class="form-control" [value]="this.viewedMeeting.comment" rows="3" disabled></textarea>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label for="meetingLocation">{{ 'Location' | translate }}</label>
+            <input type="text"
+              class="form-control" name="meetingLocation" id="meetingLocation" [value]="this.viewedMeeting.location" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" class="btn btn-block btn-primary" data-toggle="modal" data-target="#showInviteesModal">
+            <fa-icon [icon]="iconInvitees"></fa-icon>
+            {{this.viewedMeeting.attendees.length}} {{ 'invited' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!this.hidingDetails">
+    <div class="col-md-12">
+      {{ 'The meeting repeats' | translate }}: 
+      <span *ngIf="this.viewedMeeting.repeating">
+        <strong>{{ 'every' | translate }} {{this.viewedMeeting.repeatingCount}} {{friendlyInterval(this.viewedMeeting.repeatingInterval, this.viewedMeeting.repeatingCount > 1) | translate}}</strong>
+      </span>
+      <span *ngIf="!this.viewedMeeting.repeating">
+        <strong>{{ 'not repeating' | translate }}</strong>
+      </span>
+    </div>
+  </div>
+  <br *ngIf="!this.hidingDetails">
+  <div class="row">
+    <div class="col-md-12">
+      <app-meetings-view-calendar [calendarEvents]="this.viewedMeeting.timeslots" [timeRange]="validRange"></app-meetings-view-calendar>
+    </div>
+  </div>
+</div>
+  
+<!-- Invitee Modal -->
+<div class="modal fade" id="showInviteesModal" tabindex="-1" role="dialog" aria-labelledby="showInviteesModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="showInviteesModalTitle">{{ 'Invited People' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group list-group" *ngFor="let invitee of this.viewedMeeting.attendees">
+          <div id="" class="btn-group mb-1" role="group">
+            <button class="list-group-item list-group-item-action">
+              <div class="row">
+                <div class="col-sm-2 my-auto">
+                  [Icon]
+                </div>
+                <div class="col-sm-6 my-auto">
+                  {{invitee.userID.name}}
+                </div>
+                <div class="col-sm-4 my-auto">
+                  {{ 'Answer' | translate }}:
+                  {{invitee.answerState}}
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12 my-auto">
+                  {{ 'Note' | translate }}: {{invitee.customAnswer}}
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

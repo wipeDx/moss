@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="list-group">
+        <div class="btn-group mb-2" role="group" *ngFor="let meeting of meetings">
+          <button [routerLink]="['/meetings/view/', meeting._id]" class="list-group-item list-group-item-action">
+            <div class="row justify-content-between">
+              <div class="col-md-3 my-auto">
+                {{meeting.name}}<b *ngIf="meeting.creator.name == this.currentUser.name"> ({{'created' | translate}})</b>
+                <br>
+                {{meeting.attendees.length}} {{'invited' | translate}}
+              </div>
+              <div class="col-md-6 my-auto">
+                {{'Created by' | translate}}: {{meeting.creator.name}}
+                <br>
+                {{ 'Answers' | translate }}: {{this.getAnswerCount(meeting)}} / {{meeting.attendees.length}}
+              </div>
+              <div class="col-md-3 my-auto">
+                {{ 'Created on' | translate }}
+                {{this.getLocaleDateString(meeting.created)}}
+              </div>
+            </div>
+          </button>
+          <button *ngIf="meeting.creator.name == this.currentUser.name && !(meeting.state === 'Completed' || meeting.state === 'Cancelled')" (click)="setMeetingToSet(meeting)" class="btn btn-info"><fa-icon [icon]="setButton"></fa-icon> {{ 'Set' | translate }}</button>
+          <button *ngIf="meeting.creator.name == this.currentUser.name && !(meeting.state === 'Completed' || meeting.state === 'Cancelled')" (click)="setMeetingToCancel(meeting)" class="btn btn-dark"><fa-icon [icon]="cancelButton"></fa-icon> {{ 'Cancel_meeting_button' | translate }}</button>
+          <button *ngIf="meeting.creator.name == this.currentUser.name && !(meeting.state === 'Completed' || meeting.state === 'Cancelled')" [routerLink]="['/meetings/edit/', meeting._id]" class="btn btn-secondary"><fa-icon [icon]="editButton"></fa-icon> {{ 'Edit' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal-set-meeting [meeting]="meetingToSet"></app-modal-set-meeting>
+<app-modal-cancel-meeting [meeting]="meetingToCancel"></app-modal-cancel-meeting>

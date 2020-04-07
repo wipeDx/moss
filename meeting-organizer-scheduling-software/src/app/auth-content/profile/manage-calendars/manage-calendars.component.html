@@ -1,0 +1,76 @@
+<router-outlet></router-outlet>
+<div class="row">
+  <h5 class="col-sm-12">{{ 'Manage connected calendars' | translate }}</h5>
+</div>
+<form>
+  <!-- add new calendars -->
+  <div class="form-group row">
+    <label for="addCalendar" class="col-sm-12 col-form-label">{{ 'Add new calendar' | translate }}</label>
+    <div class="col-sm-12 col-md-6">
+      <form #calenderConnect="ngForm">
+        <select name="selection" ngModel class="custom-select">
+          <option value="" disabled>{{ 'Choose type of calendar' | translate }}</option>
+          <option [ngValue]="CalType.GOOGLE">Google Calendar</option>
+          <!-- <option [ngValue]="CalType.APPLE">Apple iCloud Calendar</option> REMOVE COMMENT WHEN IMPLEMENTED? I GUESS?-->
+          <option [ngValue]="CalType.MICROSOFT">Microsoft Exchange</option>
+          <option [ngValue]="CalType.ICS">ICS Feed</option>
+        </select>
+      </form>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <button class="btn btn-primary btn-block" (click)="handleCalendarConnection(calenderConnect.value)">
+        <fa-icon [icon]="iconAddCalendar"></fa-icon>
+        {{ 'Connect selected calendar' | translate }}
+      </button>
+    </div>
+  </div>
+  <div class="form-group row" *ngIf="existingCalendars.length > 0">
+    <label for="modifyCalendar" class="col-sm-12 col-form-label">{{ 'Existing calendars' | translate }}</label>
+    <div class="col-sm-12">
+      <div class="list-group">
+        <div class="btn-group mb-2" role="group" aria-label="Basic example" *ngFor="let calendar of existingCalendars">
+          <button class="list-group-item list-group-item-action">
+            <div class="row">
+              <div class="col-sm-4 my-auto">
+                {{calendar.name}}
+              </div>
+              <div class="col-sm-4 my-auto">
+                <div align="center">
+                  {{calendar.type}}
+                </div>
+              </div>
+            </div>
+          </button>
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#dangerDeleteCalendarModal" (click)="updateCalendarToDelete(calendar)"><fa-icon [icon]="iconDelete"></fa-icon> {{ 'Delete' | translate }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Danger delete modal https://getbootstrap.com/docs/4.3/components/modal/ -->
+<div class="modal fade" id="dangerDeleteCalendarModal" tabindex="-1" role="dialog" aria-labelledby="dangerDeleteCalendarModalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dangerDeleteCalendarModalTitle">{{ 'Permanently deleting the connection to your calendar' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{ 'delete_calendar_text' | translate }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <fa-icon [icon]="iconCancel"></fa-icon>
+          {{ 'Cancel' | translate }}
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteCalendar()">
+          <fa-icon [icon]="iconDelete"></fa-icon>
+          {{ 'Delete calendar' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

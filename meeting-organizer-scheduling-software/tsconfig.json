@@ -1,0 +1,32 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2015",
+    "types": ["node"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "paths": {
+      "fs": ["src/mock/fs.mock.js"],
+      "child_process": ["src/mock/fs.mock.js"],
+      "https-proxy-agent": ["src/mock/https-proxy-agent.mock.js"]
+    },
+    "lib": [
+      "es2018",
+      "dom",
+    ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true
+  }
+}

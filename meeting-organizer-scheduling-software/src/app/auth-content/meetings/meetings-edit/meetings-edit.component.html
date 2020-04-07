@@ -1,0 +1,36 @@
+<router-outlet></router-outlet>
+
+<!-- Modal -->
+<div class="modal fade" id="modalDeleteEvent" tabindex="-1" role="dialog" aria-labelledby="modalDeleteEventTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Delete Meeting</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        Deleting this meeting is irreversable.<br>
+        Decide whether to send a notice to all invitees:<br>
+        <div class="form-check">
+          <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" [(ngModel)]="sendNotificationToInvitees" value="sendDeleteNotificationToInvitees" checked>
+            Send notification to invitees
+          </label>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <fa-icon [icon]="iconCancel"></fa-icon>
+          Cancel
+        </button>
+        <button type="button" class="btn btn-danger" (click)="deleteMeeting()" data-dismiss="modal">
+          <fa-icon [icon]="iconDelete"></fa-icon>
+            Delete
+          </button>
+      </div>
+    </div>
+  </div>
+</div>

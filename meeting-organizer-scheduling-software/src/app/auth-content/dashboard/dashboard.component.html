@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="row mb-3">
+    <div class="col-md-8">
+      <h2>Dashboard</h2>
+    </div>
+  </div>
+  <div class="row mb-3">
+    <div class="col-sm-12">
+      <div class="card">
+        <h5 class="card-header">{{ 'Unanswered meetings' | translate }}</h5>
+        <div class="card-body">
+          <app-meetings-list [meetingsFunc]="meetingsFuncUnanswered"></app-meetings-list>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="card">
+        <h5 class="card-header">{{ 'Created meetings' | translate }}</h5>
+        <div class="card-body">
+            <app-meetings-list [meetingsFunc]="meetingsFuncCreated"></app-meetings-list>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<!-- Modal -->
+<div class="modal fade" id="modal2FADisable" tabindex="-1" role="dialog" aria-labelledby="modal2FADisableTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'Disable 2FA' | translate }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        {{ 'Disabling your 2FA is fine, but insecure' | translate }}.
+        <form [formGroup]="verificationForm">
+          <div class="form-group row">
+            <div class="col-md-2 my-auto">
+              <label for="modal2FAEnableVerificationToken">{{ 'Verify' | translate }}</label>
+            </div>
+            <div class="col-md-10">
+              <input type="text" class="form-control" name="modal2FAEnableVerificationToken" id="modal2FAEnableVerificationToken" aria-describedby="modal2FAEnableVerificationTokenHelp"
+              formControlName="token" placeholder="{{ 'Enter your token here' | translate }}" [ngClass]="{ 'is-invalid': (submitted && this.errorToken) || this.tokenDidNotMatch }"autofocus>
+              <small id="modal2FAEnableVerificationTokenHelp" class="form-text text-muted">{{ 'Enter your generated token here in order to verify the code' | translate }}</small>
+              <div *ngIf="submitted && this.errorToken" class="invalid-feedback">
+                <div *ngIf="this.errorToken.required">{{ 'Token is required' | translate }}</div>
+                <div *ngIf="this.errorToken.minlength || this.errorToken.maxlength">{{ 'Token must be 6 digits' | translate }}</div>
+              </div>
+              <div *ngIf="this.tokenDidNotMatch" class="invalid-feedback">
+                <div *ngIf="this.tokenDidNotMatch">{{ 'The entered token is invalid' | translate }}</div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <fa-icon [icon]="iconCancel"></fa-icon>
+          {{ 'Cancel' | translate }}
+        </button>
+        <button type="submit" class="btn btn-danger" (click)="verifyToken()">
+          <fa-icon [icon]="iconDisable"></fa-icon>
+          <span *ngIf="submitted" class="spinner-border spinner-border-sm mr-1"></span>
+          {{ 'Remove 2FA' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

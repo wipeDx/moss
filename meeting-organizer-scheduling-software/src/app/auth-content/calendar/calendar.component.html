@@ -1,0 +1,51 @@
+<full-calendar
+  #calendar
+  defaultView="dayGridMonth"
+  [plugins]="calendarPlugins"
+  themeSystem="bootstrap"
+  selectable="true"
+  selectMirror="true"
+  selectOverlap="true"
+  [locales]="locales"
+  [locale]="this.translate.currentLang"
+  nowIndicator="true"
+  weekNumberCalculation="ISO"
+  [events]="calendarEvents"
+  [aspectRatio]="aspectRatio"
+  [header]="
+    {
+      left: 'title',
+      center: '',
+      right: ''
+    }
+  "
+  [footer]="
+    {
+      left: 'today',
+      center: 'dayGridMonth,timeGridWeek',
+      right: 'prev,next'
+    }
+  "
+  validRange="{start: nowDate}"
+  [views]="
+    {
+      dayGrid: {
+        titleFormat: { year: 'numeric', month: 'short' }
+      },
+      timeGrid: {
+        titleFormat: { year: 'numeric', month: 'short', day: 'numeric' }
+      }
+    }
+  "
+  editable="true"
+  eventStartEditable="true"
+  eventDurationEditable="true"
+  (select)="handleEventSelect($event)"
+  (eventClick)="handleEventClick($event)"
+  (eventDrop)="handleEventDragStop($event)"
+  (eventResize)="handleEventResizeStop($event)"
+  id="meeting-create-calendar"
+  deepChangeDetection="true"
+  ></full-calendar>
+
+<app-modal-timeslot-edit [events]="this.selectedTimeslots" (deleteFromCalendarEvents)="deleteFromCalEvents($event)" (changeCalendarEvent)="changeCalenderEvent($event)"></app-modal-timeslot-edit>

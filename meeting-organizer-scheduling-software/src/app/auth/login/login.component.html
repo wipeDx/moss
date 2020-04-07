@@ -1,0 +1,126 @@
+<!-- https://bootsnipp.com/snippets/GaZG0 -->
+<div class="container">
+  <div class="row justify-content-center vertical-center">
+    <div class="col-lg-8 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-sm-10 my-auto">{{ 'Welcome to MOSS! Please log in.' | translate }}</div>
+            <div class="col-sm-2">
+              <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span *ngIf="this.translate.currentLang == 'en'">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" class="mr-2" style="width: 20px">EN
+                  </span>
+                  <span *ngIf="this.translate.currentLang == 'de'">
+                    <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" class="mr-2" style="width: 20px">DE
+                  </span>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" *ngIf="this.translate.currentLang == 'en'" (click)="switchLanguage('de')" disabled><img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" class="mr-2" style="width: 20px">Deutsch (DE)</a>
+                  <a class="dropdown-item" *ngIf="this.translate.currentLang == 'de'" (click)="switchLanguage('en')" disabled><img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" class="mr-2" style="width: 20px">English (EN)</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+              <label for="email" class="col-md-4 col-form-label text-md-right">{{ 'E-Mail Address' | translate }}</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" formControlName="email"
+                [ngClass]="{ 'is-invalid': submitted && this.errorEmail }" autofocus>
+                <div *ngIf="submitted && this.errorEmail" class="invalid-feedback">
+                  <div *ngIf="this.errorEmail.required">{{ 'Email is required' | translate }}</div>
+                </div>
+              </div>
+              
+            </div>
+
+            <div class="form-group row">
+              <label for="password" class="col-md-4 col-form-label text-md-right">{{ 'Password' | translate }}</label>
+              <div class="col-md-6">
+                <input type="password" class="form-control" formControlName="password"
+                 [ngClass]="{ 'is-invalid': submitted && this.errorPassword }">
+                <div *ngIf="submitted && this.errorPassword" class="invalid-feedback">
+                  <div *ngIf="this.errorPassword.required">{{ 'Password is required' | translate }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 offset-md-4">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" name="rememberme" formControlName="rememberme" class="form-check-input">
+                    {{ 'Remember me' | translate }}
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6 offset-md-4">
+                <button [disabled]="loading" class="btn btn-primary">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  {{ 'Login' | translate }}
+                </button>
+              </div>
+              <div class="col-md-6 offset-md-4">
+                <a href="#">
+                  {{ 'Forgot Your Password?' | translate }}
+                </a>
+              </div>
+              <div class="col-md-6 offset-md-4">
+                <a routerLink="/register">
+                  {{ 'No account yet? Sign up!' | translate }}
+                </a>
+              </div>
+            </div>
+            <input type="hidden" class="form-control" formControlName="otpToken">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal2FALogin" tabindex="-1" role="dialog" aria-labelledby="modal2FALoginTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Enter 2FA Token</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            This account is using 2 Factor authentication. Please provide your token.
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-md-2 my-auto">
+            <label for="modal2FAEnableVerificationToken">Verify</label>
+          </div>
+          <div class="col-md-10">
+            <input type="text" class="form-control" name="modal2FALoginVerificationToken" id="modal2FALoginVerificationToken" aria-describedby="modal2FALoginVerificationTokenHelp"
+            placeholder="Enter your token here" [(ngModel)]="this.otpToken" [ngClass]="{ 'is-invalid': (submitted && this.errorOtpToken) || this.tokenDidNotMatch }">
+            <small id="modal2FAEnableVerificationTokenHelp" class="form-text text-muted">Enter your generated token here in order to verify the code</small>
+            <div *ngIf="submitted && this.errorOtpToken" class="invalid-feedback">
+              <div *ngIf="this.errorOtpToken.minlength || this.errorOtpToken.maxlength">{{ 'Token must be 6 digits' | translate }}</div>
+            </div>
+            <div *ngIf="this.tokenDidNotMatch" class="invalid-feedback">
+              <div *ngIf="this.tokenDidNotMatch">{{ 'The entered token is invalid' | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onSubmit()">Login</button>
+      </div>
+    </div>
+  </div>
+</div>

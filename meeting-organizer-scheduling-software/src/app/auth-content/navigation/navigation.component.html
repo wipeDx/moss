@@ -1,0 +1,52 @@
+<!-- https://getbootstrap.com/docs/4.3/components/navbar/#responsive-behaviors -->
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" routerLink="/">MOSS</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div #navbarContent class="collapse navbar-collapse" id="navbarContent">
+  <!-- When logged in -->
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <a class="nav-link" routerLink="/dashboard" routerLinkActive="active"><fa-icon [icon]="iconDash"></fa-icon> Dashboard</a>
+        
+      </li>
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <a class="nav-link" routerLink="/groups" routerLinkActive="active"><fa-icon [icon]="iconGroups"></fa-icon> {{ 'Groups' | translate }}</a>
+      </li>
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <a class="nav-link" routerLink="/meetings" routerLinkActive="active"><fa-icon [icon]="iconMeetings"></fa-icon> Meetings</a>
+      </li>
+    </ul>
+
+    <!-- Right side, profile part -->
+    <ul class="navbar-nav navbar-right">
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" routerLink="/meetings/create/details"><fa-icon [icon]="iconPlus"></fa-icon> {{ 'Create meeting' | translate }}</button>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarLanguageSelect" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <span *ngIf="this.translate.currentLang == 'en'">
+            <img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" class="mr-2" style="width: 20px">EN
+          </span>
+          <span *ngIf="this.translate.currentLang == 'de'">
+            <img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" class="mr-2" style="width: 20px">DE
+          </span>
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarLanguageSelect">
+          <a class="dropdown-item" *ngIf="this.translate.currentLang == 'en'" (click)="switchLanguage('de')" disabled><img src="https://upload.wikimedia.org/wikipedia/en/b/ba/Flag_of_Germany.svg" class="mr-2" style="width: 20px">Deutsch (DE)</a>
+          <a class="dropdown-item" *ngIf="this.translate.currentLang == 'de'" (click)="switchLanguage('en')" disabled><img src="https://upload.wikimedia.org/wikipedia/en/a/ae/Flag_of_the_United_Kingdom.svg" class="mr-2" style="width: 20px">English (EN)</a>        </div>
+      </li>
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <a class="nav-link" routerLink="/profile"><fa-icon [icon]="iconUser"></fa-icon> {{currentUser.name}}</a>
+      </li>
+      <li class="nav-item" [attr.data-toggle]="navbarContent.classList.contains('show') ? 'collapse' : ''" data-target="#navbarContent">
+        <a class="nav-link" routerLink="/logout"><fa-icon [icon]="iconLogout"></fa-icon> {{ 'Logout' | translate }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="bottom-spacer">
+
+</div>

@@ -1,0 +1,18 @@
+/* The animation code */
+@keyframes slide {
+  0%   {bottom: -60px}
+  15%  {bottom: 0px}
+  85%  {bottom: 0px}
+  100% {bottom: -60px}
+}
+
+.custom-alert {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  margin-bottom: 0px;
+  text-align: center;
+  animation-name: slide;
+  animation-duration: 5s;
+  z-index: 2;
+}

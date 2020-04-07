@@ -1,0 +1,106 @@
+<div class="modal fade" id="modalAutomaticSelection" tabindex="-1" role="dialog" aria-labelledby="modalAutomaticSelectionTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'Automatic selection of time slots' | translate }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <form [formGroup]="formGroup">
+            <!-- Type here is not "datetime" because even the newest version of firefox did NOT support it -->
+            <div class="row">
+              <label for="automAppStartDate" class="col-sm-3 my-auto">{{ 'Start date' | translate }}</label>
+              <input  type="date" class="form-control col-sm-9" formControlName="startDate" name="automAppStartDate" id="automAppStartDate">
+            </div>
+            <br>
+            <div class="row">
+              <label for="automAppEndDate" class="col-sm-3 my-auto">{{ 'End date' | translate }}</label>
+              <input  type="date" class="form-control col-sm-9" formControlName="endDate" name="automAppEndDate" id="automAppEndDate">
+            </div>
+            <br>
+            <div class="row">
+              <label for="timeSlotEditStartDate" class="col-sm-3 my-auto">{{ 'Time range' | translate }}</label>
+              <input type="time"
+                class="form-control col-sm-4" formControlName="timeRangeStart" name="timeRangeStart" id="timeRangeStart">
+              <label class="col-sm-1 my-auto">
+                <div align="center">
+                  {{ 'to' | translate }}
+                </div>
+              </label>
+              <input #eventTimeStart type="time"
+                class="form-control col-sm-4" formControlName="timeRangeEnd" name="timeRangeEnd" id="timeRangeEnd">
+            </div>
+            <br>
+            <div class="row">
+              <label for="automaticCreationNumberAppointments" class="col-sm-3 my-auto">{{ 'Number of appointments' | translate }}</label>
+              <input type="number" class="form-control col-sm-9" formControlName="numAppointments" name="automaticCreationNumberAppointments" id="automaticCreationNumberAppointments" min="1" value="1">
+            </div>
+            <br>
+            <div class="row">
+              <label for="automaticCreationLengthAppointments" class="col-sm-3 my-auto">{{ 'Est. appointment length' | translate }}</label>
+              <div class="col-sm-9 fix-padding">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">{{ 'Hours' | translate }}</span>
+                  </div>
+                  <input type="number" class="form-control" formControlName="lenAppointmentsHours" min="0" value="0">
+                  <div class="input-group-append">
+                    <span class="input-group-text">{{ 'Minutes' | translate }}</span>
+                    <input type="number" class="form-control fix-borders" formControlName="lenAppointmentsMinutes" min="0" max="60" value="30" step="15">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row justify-content-between">
+              <label for="automaticCreationNumberAppointments" class="col-sm-3 my-auto">{{ 'Select specific days' | translate }}</label>
+              <div class="form-check form-check-inline col-sm-auto" *ngFor="let day of ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" formControlName="specificDay{{day}}" name="auto{{day}}" id="auto{{day}}" value="auto{{day}}Value"> {{day | translate}}
+                </label>
+              </div>
+            </div>
+            <br *ngIf="gottenResults">
+            <div class="row" *ngIf="gottenResults">
+              <label for="autoAppsResults" class="col-sm-3 my-auto">{{ 'Choose a proposed appointment' | translate }}</label>
+              <div class="col-sm-9 fix-padding">
+                <div class="form-check" *ngFor="let dates of proposedDates">
+                  <label class="form-check-label">
+                    <input class="form-check-input" type="radio" name="autoAppointmentRadio" id="autoAppointmentRadio" (change)="changeSelection(dates)" selected>
+                    <div *ngFor="let date of dates">{{displayDate(date.start)}} - {{displayDate(date.end)}}<br></div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="container" *ngIf="this.loadedProposedTimes">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          <fa-icon [icon]="buttonCancel"></fa-icon>
+          {{ 'Close' | translate }}
+        </button>
+        <button [disabled]="loading" type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="!gottenResults">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          <fa-icon [icon]="buttonCalculate"></fa-icon>
+          {{ 'Calculate' | translate }}
+        </button>
+        <button [disabled]="loading" type="button" class="btn btn-primary" (click)="onSubmit()" *ngIf="gottenResults">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          <fa-icon [icon]="buttonCalculate"></fa-icon>
+          {{ 'Recalculate' | translate }}
+        </button>
+        <button type="button" class="btn btn-success" (click)="onConfirm()" *ngIf="gottenResults">
+          <fa-icon [icon]="buttonConfirm"></fa-icon>
+          {{ 'Choose appointment' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="row justify-content-between">
+    <h2 class="col-sm-auto">{{ 'Profile Settings' | translate }}</h2>
+    <div class="col-sm-12 col-md-auto col-lg-auto">
+      <div class="float-center" style="text-align: center;">
+        <div class="btn-group" role="group" aria-label="btnGroupProfile">
+          <button type="button" class="btn btn-primary" routerLink="calendars">
+            <fa-icon [icon]="iconCalendar"></fa-icon>
+            {{ 'Calendars' | translate }}
+          </button>
+          <button type="button" class="btn btn-primary" routerLink="credentials">
+            <fa-icon [icon]="iconCredentials"></fa-icon>
+            {{ 'Account' | translate }}
+          </button>
+          <button type="button" class="btn btn-primary" routerLink="danger-zone">
+            <fa-icon [icon]="iconDangerZone"></fa-icon>
+            {{ 'Danger Zone' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

@@ -1,0 +1,38 @@
+<app-full-page-loading-spinner [loading]="loadingCalendars"></app-full-page-loading-spinner>
+<app-modal-meeting-creation-automatic-selection [calendarEvents]="calendarEvents" [selectedTimeslots]="selectedTimeslots"></app-modal-meeting-creation-automatic-selection>
+<div class="container">
+  <div class="row justify-content-between">
+    <div class="col-md-12 col-lg-3">
+      <h2>{{ (isEditing ? 'Edit meeting' : 'Create meeting') | translate }}</h2>
+    </div>
+    <div class="col-md-4 offset-lg-1 col-lg-auto">
+      <button type="button" class="btn btn-block btn-dark"  data-toggle="modal" data-target="#modalAutomaticSelection">
+        <fa-icon [icon]="iconChooseTimes"></fa-icon>
+        {{ 'Automatic selection' | translate }}</button>
+    </div>
+    <div class="col-md-8 col-lg-auto">
+      <div class="my-auto" align="right">
+        <div class="btn-group btn-block" role="group" aria-label="Calendar Back Create">
+          <button *ngIf="isEditing" type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalDeleteEvent">
+            <fa-icon [icon]="iconDelete"></fa-icon>
+            {{ 'Delete Meeting' | translate }}
+          </button>
+          <button type="button" class="btn btn-primary " routerLink="../details">
+            <fa-icon [icon]="iconBack"></fa-icon>
+            {{ 'Back' | translate }}
+          </button>
+          <button type="button" class="btn btn-success" (click)="isEditing? onSubmitEdit() : onSubmit()">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            <fa-icon [icon]="isEditing ? iconSave : iconAdd"></fa-icon>
+            {{ (isEditing ? 'Save changes' : 'Create meeting') | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <app-calendar [calendarEvents]="calendarEvents" [selectedTimeslots]="selectedTimeslots"></app-calendar>
+    </div>
+  </div>
+</div>

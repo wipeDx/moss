@@ -1,0 +1,178 @@
+<script lang="javascript">
+  function searchOnFocus() {
+    $('#meetingInvite').dropdown('show');
+  }
+  function searchOnUnfocus() {
+    $('#meetingInvite').dropdown('hide');
+  }
+</script>
+
+<div class="container">
+  <form [formGroup]="meetingDetailsForm" (ngSubmit)="onSubmit()">
+    <div class="row justify-content-between">
+      <div class="col-md-auto">
+        <h2>{{ (isEditing ? 'Edit meeting' : 'Create meeting') | translate }}</h2>
+      </div>
+      <div class="col-md-auto">
+        <div class="row justify-content-end">
+          <div class="col-md-auto" *ngIf="isEditing">
+            <button type="button" class="btn btn-block btn-danger" data-toggle="modal" data-target="#modalDeleteEvent">
+              <fa-icon [icon]="iconDelete"></fa-icon>
+              {{ 'Delete Meeting' | translate }}
+            </button>
+          </div>
+          <div class="col-md-auto">
+            <button type="button" class="btn btn-block btn-primary" routerLink="../calendar" (click)="onSubmit()">
+              <fa-icon [icon]="iconChooseTimes"></fa-icon>
+              {{ 'Choose times' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="meetingName"> {{ 'Meeting name' | translate }}</label>
+          <input type="text"
+            class="form-control" formControlName="name" name="meetingName" id="meetingName" aria-describedby="helpMeetingName" (change)="changedInput()" placeholder="{{ 'Meeting name' | translate }}">
+          <small id="helpMeetingName" class="form-text text-muted">{{ 'Let invitees know what the meeting is for' | translate }}.</small>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="meetingLocation">{{ 'Location' | translate }}</label>
+          <input type="text"
+            class="form-control" formControlName="location" name="meetingLocation" id="meetingLocation" (change)="changedInput()" aria-describedby="helpMeetingLocation" placeholder="Meeting {{ 'location' | translate }}">
+          <small id="helpMeetingLocation" class="form-text text-muted">{{ 'Let invitees know where the meeting is' | translate }}.</small>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="meetingComment">{{ 'Additional optional comments' | translate }}</label>
+          <textarea class="form-control" formControlName="comment" name="meetingComment" id="meetingComment" (change)="changedInput()" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+              <div class="input-group-text" style="background: #f8f9fa">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="form-control custom-control-input" formControlName="repeating" name="meetingRepeating" id="meetingRepeating" autocomplete="off" (change)="toggleRepeating(); changedInput()">
+                  <label class="custom-control-label" for="meetingRepeating">{{ 'Repeating' | translate }}</label>
+                </div>
+              </div>
+            <span class="input-group-text">{{ 'every' | translate }}</span>
+          </div>
+          <input type="text" name="meetingAmountRepeating" id="meetingAmountRepeating" class="form-control" formControlName="repeatingCount" (change)="changedInput()" placeholder="{{ 'nth' | translate }}" aria-label="Repeating amount">
+          <div class="input-group-append">
+            <select class="custom-select form-control" formControlName="repeatingInterval" id="selectRepeating" (change)="changedInput()">
+              <option value="NONE" disabled selected>{{ 'Choose' | translate }}...</option>
+              <option value="DAY">{{ 'Day(s)' | translate }}</option>
+              <option value="WEEK">{{ 'Week(s)' | translate }}</option>
+              <option value="MONTH">{{ 'Month(s)' | translate }}</option>
+              <option value="YEAR">{{ 'Year(s)' | translate }}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="meetingInvite">{{ 'Invite people or groups' | translate }}</label>
+          <input #memberSearch type="text" class="form-control dropdown-toggle" name="meetingInvite" id="meetingInvite" aria-describedby="helpMeetingInvite"
+                  data-toggle="searchMemberDropdown" placeholder="{{ 'Invite people or groups' | translate }}" (input)="searchInvitees(memberSearch.value)">
+          <small id="helpMeetingInvite" class="form-text text-muted">{{ 'Enter names of groups, people or their email addresses' | translate }}.</small>
+        </div>
+      </div>
+    </div>
+    <label for="userSearchResults" *ngIf="this.searching">{{ 'Search results' | translate }}</label>
+    <div class="row">
+      <div class="col-sm-12 scrolling">
+        <div class="form-group list-group" *ngFor="let group of groupSearchResult$ | async">
+          <div id="userSearchResults" class="btn-group mb-1" role="group" *ngIf="searching">
+            <button class="list-group-item list-group-item-action">
+              <div class="row">
+                <div class="col-sm-1 my-auto">
+                  [Icon]
+                </div>
+                <div class="col-sm-4 my-auto">
+                  {{group.name}}
+                </div>
+                <div class="col-sm-7 my-auto">
+                  <div align="center">
+                    {{group.members.length}}
+                  </div>
+                </div>
+              </div>
+            </button>
+            <button type="button" class="btn btn-success" (click)="addGroupToList(group); changedInput()"><fa-icon [icon]="addButton"></fa-icon> {{ 'Add' | translate }}</button>
+          </div>
+        </div>
+        <div class="form-group list-group" *ngFor="let user of userSearchResult$ | async">
+          <div id="userSearchResults" class="btn-group mb-1" role="group" *ngIf="(this.currentUser._id !== user._id) && searching && (this.members_to_be_added.get(user.email) === undefined)">
+            <button class="list-group-item list-group-item-action">
+              <div class="row">
+                <div class="col-sm-2 my-auto">
+                  [Icon]
+                </div>
+                <div class="col-sm-10 my-auto">
+                  {{user.name}}
+                  <br>
+                  {{user.email}}
+                </div>
+              </div>
+            </button>
+            <button type="button" class="btn btn-success" (click)="addToList(user); changedInput()"><fa-icon [icon]="addButton"></fa-icon> {{ 'Add' | translate }}</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="filterSearch">{{ 'Filter attendees' | translate }}</label>
+          <input type="search" name="filterSearch" id="filterSearch" class="form-control" placeholder="{{ 'Filter attendees' | translate }}" aria-describedby="helpFilterSearch" [(ngModel)]="memberToBeAddedNameFilter" [ngModelOptions]="{standalone: true}">
+          <small id="helpFilterSearch" class="text-muted">{{ 'Type their e-mail addresses or names' | translate }}</small>
+        </div>
+
+        <label for="addedMembers" *ngIf="this.members_to_be_added.size > 0">{{ 'Added attendees' | translate }}</label>
+        <div class="row">
+          <div class="col-sm-12 scrolling">
+            <div class="form-group list-group" *ngFor="let entry of filteredMembersToBeAdded(this.members_to_be_added | keyvalue)">
+              <div id="userSearchResults" class="btn-group mb-1" role="group" *ngIf="this.members_to_be_added.size > 0">
+                <button class="list-group-item list-group-item-action">
+                  <div class="row">
+                    <div class="col-sm-1 my-auto">
+                      [Icon]
+                    </div>
+                    <div class="col-sm-6 my-auto">
+                      {{entry.value.name}}
+                      <br>
+                      {{entry.value.email}}
+                    </div>
+                    <div class="col-sm-5 my-auto">
+                      {{ 'Priority' | translate }}:
+                      <select #prioritySelect class="form-control form-control-sm" (change)="changePriority(entry.value, this.prioritySelect.value); changedInput()">
+                        <option value="1" [selected]="checkPriority(entry.value, 'MOST_IMPORTANT')">{{ 'Maximum' | translate }}</option>
+                        <option value="2" [selected]="checkPriority(entry.value, 'NORMAL')">Normal</option>
+                        <option value="3" [selected]="checkPriority(entry.value, 'NOT_IMPORTANT')">{{ 'Unimportant' | translate }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </button>
+                <button type="button" class="btn btn-danger" (click)="removeFromList(entry.value); changedInput()"><fa-icon [icon]="deleteButton"></fa-icon> {{ 'Delete' | translate }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+

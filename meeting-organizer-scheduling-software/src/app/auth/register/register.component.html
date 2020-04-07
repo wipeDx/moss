@@ -1,0 +1,102 @@
+<!-- https://bootsnipp.com/snippets/GaZG0 -->
+<div class="container">
+  <div class="row justify-content-center vertical-center">
+    <div class="col-lg-8 col-md-12 col-sm-12">
+      <div class="card">
+        <div class="card-header">{{ 'Register an account for MOSS' | translate }}</div>
+        <div class="card-body">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+            <div class="form-group row">
+              <label for="name" class="col-md-4 col-form-label text-md-right">{{ 'Full Name' | translate }}</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" formControlName="name"  [ngClass]="{ 'is-invalid': submitted && this.invalidName }" autofocus>
+                <div *ngIf="submitted && this.invalidName" class="invalid-feedback">
+                  <div *ngIf="this.invalidName.required">{{ 'Name is required' | translate }}</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="email" class="col-md-4 col-form-label text-md-right">{{ 'E-Mail Address' | translate }}</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" formControlName="email" [ngClass]="{ 'is-invalid': submitted && this.invalidEmail }">
+                <div *ngIf="submitted && this.invalidEmail" class="invalid-feedback">
+                  <div *ngIf="this.invalidEmail.required">{{ 'Email is required' | translate }}</div>
+                  <div *ngIf="this.invalidEmail.email">{{ 'Please provide a valid E-Mail' | translate }}</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <label for="password" class="col-md-4 col-form-label text-md-right">{{ 'Password' | translate }}</label>
+              <div class="col-md-6">
+                <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': submitted && this.invalidPassword }">
+                <div *ngIf="submitted && this.invalidPassword" class="invalid-feedback">
+                  <div *ngIf="this.invalidPassword.required">{{ 'Password is required' | translate }}</div>
+                  <div *ngIf="this.invalidPassword.minlength">{{ 'Password must be at least 8 characters' | translate }}</div>
+                </div>
+              </div>
+            </div>  
+            <div class="form-group row">
+              <div class="col-md-6 offset-md-4">
+                <div class="form-check">
+                  <label class="form-check-label">
+                    <input type="checkbox" formControlName="terms" class="form-check-input" [ngClass]="{ 'is-invalid': submitted && this.invalidTerms }">
+                    {{ 'Agree to' | translate }} <a routerLink="" data-toggle="modal" data-target="#TOSModal">{{ 'terms and conditions' | translate }}</a> {{ 'gelesen habe' | translate}}
+                  </label>
+                  <div *ngIf="submitted && this.invalidTerms" class="invalid-feedback">
+                    <div *ngIf="this.invalidTerms.required">{{ 'Accepting terms and conditions is required' | translate }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-md-6 offset-md-4">
+                <button [disabled]="loading" type="submit" class="btn btn-primary">
+                  <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                  {{ 'Register' | translate }}
+                </button>
+              </div>
+            </div>
+            <div class="col-md-6 offset-md-4">
+              <a routerLink="/login">
+                {{ 'Already have an account? Log in.' | translate }}
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+
+  <!-- ToS modal https://getbootstrap.com/docs/4.3/components/modal/ -->
+<div class="modal fade" id="TOSModal" tabindex="-1" role="dialog" aria-labelledby="dangerDeleteAccountModlTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="TOSModalTitle">Terms of Service</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean a felis vel mi dapibus feugiat eget eget ante. Nulla metus massa, luctus in tempor quis, imperdiet sit amet ante. Sed cursus auctor iaculis. Sed auctor euismod quam, eget venenatis orci iaculis ut. Praesent molestie nisi quis pretium volutpat. Nulla nisl metus, facilisis vel nisl in, varius tristique lectus. Morbi consequat est bibendum, dictum sapien sit amet, dictum felis. Nam dapibus, nulla ac rutrum porta, dui leo accumsan quam, non eleifend purus nunc et neque. Aenean finibus, purus id lacinia faucibus, quam quam efficitur est, a euismod ante risus ac metus. Nam egestas quam lorem, non laoreet eros rutrum ut. Phasellus vulputate lorem vitae justo lacinia, ut vehicula ante placerat. Etiam gravida turpis eu lacus sollicitudin faucibus. Phasellus molestie magna non diam posuere aliquam eu sed libero. Suspendisse et velit ipsum. Suspendisse potenti.
+          In hac habitasse platea dictumst. Morbi ut tristique ligula. Ut mattis vulputate nunc sed laoreet. Curabitur cursus ut dui ut convallis. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Integer fermentum quam at nisl commodo semper. Duis et lacinia nulla.
+          Vestibulum eu efficitur erat. Quisque in hendrerit nisi. Duis condimentum, magna eget tristique interdum, turpis felis bibendum odio, sollicitudin luctus nisi ligula in mauris. Donec blandit blandit lacus iaculis pretium. Phasellus eu mi aliquam, sollicitudin ligula sed, mollis ligula. Ut maximus diam felis, faucibus feugiat purus ultricies non. Duis aliquam lorem blandit nunc malesuada finibus vitae ac dui. Donec consequat auctor nisi vel molestie. Cras id aliquet ante. Nulla facilisi.
+          Nam in libero ac arcu volutpat feugiat. Mauris lobortis luctus hendrerit. Aliquam erat volutpat. Nunc ullamcorper erat turpis, vitae ultricies mi cursus sed. Aenean sollicitudin sapien et nibh facilisis, ac elementum purus tempor. Curabitur lacinia commodo magna, non pellentesque felis bibendum ut. Donec varius tellus a sem lacinia ornare in vitae arcu.
+          Suspendisse potenti. Curabitur posuere lorem at sem maximus, molestie eleifend libero ultrices. Nunc semper dui ut tristique laoreet. Mauris eget auctor sapien. Praesent nulla ipsum, varius vel eros at, fringilla fermentum magna. Pellentesque mi eros, luctus vestibulum dapibus eget, porttitor vel ipsum. Mauris pulvinar dapibus ultrices. Morbi vel neque libero. Vivamus aliquam posuere metus sed dapibus. Mauris ut est quis magna suscipit vulputate. Ut lobortis vehicula orci, a tristique nibh dapibus ac.
+          Donec a odio vulputate, ultricies mi a, imperdiet orci. Ut eleifend dapibus augue, non pharetra tellus feugiat et. In vulputate risus felis, ornare sodales odio semper ut. Fusce fringilla nisl sit amet felis rhoncus fermentum. Pellentesque placerat lobortis tincidunt. Proin nisi turpis, sagittis non sapien eu, eleifend fermentum neque. Proin consequat ligula libero, vel semper eros commodo eu. Ut quis aliquet sem, sit amet laoreet risus. Nullam aliquet ac enim quis dictum. Donec eget turpis orci. Aliquam cursus erat a blandit hendrerit. Donec in blandit justo, sit amet lacinia leo. Phasellus eget neque nec augue molestie vulputate. Integer laoreet nisl ultricies mi ullamcorper, id lacinia ante gravida. Donec vulputate semper elementum. Duis vestibulum nisi vitae leo elementum, vitae auctor turpis congue.
+          Suspendisse porta nec purus ut mattis. Phasellus placerat orci a lectus rhoncus, quis consectetur neque varius. Nulla tristique ut lorem vel placerat. Nulla facilisi. Maecenas vitae turpis eu lorem rutrum vulputate. Suspendisse erat massa, scelerisque a turpis eu, laoreet fringilla felis. Ut consectetur dignissim iaculis. Nullam semper eget mauris non rutrum.
+          Praesent efficitur nisl quis quam auctor, et elementum purus vestibulum. Suspendisse quis metus non dui ullamcorper euismod. Aenean nec erat et ante varius vestibulum eget nec tellus. Nunc a feugiat elit. Pellentesque imperdiet eget tellus vel mollis. Vestibulum maximus risus lorem, mattis mollis mauris consequat hendrerit. Pellentesque ullamcorper ultrices nisi, ac viverra mi consectetur non. Nam facilisis purus vel venenatis vulputate.
+          Nam faucibus tellus nec leo faucibus volutpat. Sed eu diam vel enim interdum aliquam. Mauris elementum iaculis fringilla. Sed in est pretium lacus efficitur pharetra vitae tincidunt est. Vestibulum at sapien ac nisl laoreet laoreet. Fusce faucibus finibus ligula, ut porta nisi pretium et. Donec in ex ultricies, rhoncus orci vitae, dapibus libero. Sed eget ex sed urna ullamcorper convallis ac vitae nulla. Quisque porta a erat id auctor. Morbi sit amet varius dui, a luctus lectus. Nam consequat felis vel mi sollicitudin, quis accumsan urna euismod. Mauris bibendum ante vel quam rutrum, id laoreet nisi varius. Nullam porttitor posuere iaculis.
+          Vivamus eu gravida sapien, ut commodo nisl. Morbi porttitor urna in semper vehicula. Proin posuere turpis id nibh dictum tincidunt. Nunc sodales urna sit amet tortor semper rhoncus. Nullam sit amet molestie lorem. Suspendisse nec venenatis lacus, sit amet accumsan orci. Duis facilisis tincidunt mollis. Curabitur efficitur convallis enim vitae molestie. Nulla rutrum, dolor nec dapibus pulvinar, lectus libero vehicula eros, in iaculis odio metus vel sapien. Ut quis arcu quis velit pulvinar dictum. Donec sed tellus diam. 
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,56 @@
+### Get ALL users
+GET http://127.0.0.1:3000/users
+
+### Get one specific user
+GET http://127.0.0.1:3000/users/5dcd43527b409407182fafa8
+
+### Try to authenticate user
+POST http://127.0.0.1:3000/users/authenticate
+Content-Type: application/json
+
+{
+  "email": "test@test.de",
+  "password": "d760688da522b4dc3350e6fb68961b0934f911c7d0ff337438cabf4608789ba94ce70b6601d7e08a279ef088716c4b1913b984513fea4c557d404d0598d4f2f1"
+}
+
+### Try to authenticate user with wrong credentials
+POST http://127.0.0.1:3000/users/authenticate
+Content-Type: application/json
+
+{
+  "email":"test@test.de",
+  "password":"350e6fb68961b0934f911c7d0ff337438cabf4608789ba94ce70b6601d7e08a279ef088716c4b1913b984513fea4c557d404d0598d4f2f1"
+}
+
+### Post new user
+POST http://127.0.0.1:3000/users
+Content-Type: application/json
+
+{
+  "name": "Billybob Mc Ginty",
+  "password": "definitelyHashedPassword",
+  "email": "Billy@bob.mcGinty"
+}
+
+### Post new user 2
+POST http://127.0.0.1:3000/users
+Content-Type: application/json
+
+{
+  "name": "Bobbilly Mc Bobby",
+  "password": "definitelyHashedPassword",
+  "email": "Bob@bob.mcGinty"
+}
+
+### Delete user
+DELETE http://127.0.0.1:3000/users/5dc2e85fe8b9ea1f28eef683
+
+### Patch user
+
+PATCH http://127.0.0.1:3000/users/5dc2eaab85369959c8b19684
+Content-Type: application/json
+
+{
+  "calendars": ["5dc6c1798cea760824666705"],
+  "groups": []
+}

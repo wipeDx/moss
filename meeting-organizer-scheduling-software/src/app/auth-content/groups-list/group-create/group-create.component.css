@@ -1,0 +1,4 @@
+.scrolling {
+  max-height: 19em;
+  overflow-y: auto;
+}

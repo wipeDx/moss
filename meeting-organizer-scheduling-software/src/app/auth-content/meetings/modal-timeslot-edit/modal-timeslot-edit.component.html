@@ -1,0 +1,58 @@
+<!-- Timeslot edit -->
+<div class="modal fade" id="timeslotEdit" tabindex="-1" role="dialog" aria-labelledby="timeSlotEditTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{(readOnly ? 'Timeslot' : 'Change timeslot') | translate }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="form-group row">
+            <label for="timeSlotEditTitle" class="col-sm-3 my-auto">{{ 'Title' | translate }}</label>
+            <input #eventTitle type="text"
+            class="form-control col-sm-9" name="timeSlotEditTitle" id="timeSlotEditTitle" [value]="this.eventToEdit.title" [disabled]="readOnly">
+          </div>
+          <!-- Type here is not "datetime" because even the newest version of firefox did NOT support it -->
+          <div class="form-group row">
+            <label for="timeSlotEditStartDate" class="col-sm-3 my-auto">{{ 'Start Date' | translate }}</label>
+            <input #eventDateStart type="date"
+            class="form-control col-sm-4" name="timeSlotEditDate" id="timeSlotEditDate" [value]="getLocalDate(this.eventToEdit.start)" [disabled]="readOnly">
+            <input #eventTimeStart type="time"
+              class="form-control col-sm-5" name="timeSlotEditStartDate" id="timeSlotEditStartDate" [valueAsNumber]="this.getLocalNumericTime(this.eventToEdit.start)" [disabled]="readOnly">
+          </div>
+          <div class="form-group row">
+            <label for="timeSlotEditEndDate" class="col-sm-3 my-auto">{{ 'End Date' | translate }}</label>
+            <input #eventDateEnd type="date"
+            class="form-control col-sm-4" name="timeSlotEditDate" id="timeSlotEditDate" [value]="getLocalDate(this.eventToEdit.end)" [disabled]="readOnly">
+            <input #eventTimeEnd type="time"
+              class="form-control col-sm-5" name="timeSlotEditEndDate" id="timeSlotEditEndDate" [valueAsNumber]="this.getLocalNumericTime(this.eventToEdit.end)" [disabled]="readOnly">
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <!-- Put delete button on the left side of the modal -->
+        <div class="justify-content-between" style="display: flex;width: 100%;">
+          <span>
+            <button *ngIf="!readOnly" type="button" class="btn btn-danger" (click)="deleteEvent(eventToEdit)">
+              <fa-icon [icon]="iconDelete"></fa-icon>
+              {{ 'Delete timeslot' | translate }}
+            </button>
+          </span>
+          <span>
+            <button type="button" class="btn btn-secondary mr-1" data-dismiss="modal">
+              <fa-icon [icon]="iconCancel"></fa-icon>
+              {{ 'Cancel' | translate }}
+            </button>
+            <button *ngIf="!readOnly" type="button" class="btn btn-success" (click)="saveEvent()">
+              <fa-icon [icon]="iconSave"></fa-icon>
+              {{ 'Save' | translate }}
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

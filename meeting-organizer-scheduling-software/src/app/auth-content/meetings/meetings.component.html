@@ -1,0 +1,36 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-3">
+      <h2>Meetings</h2>
+    </div>
+    <div class="col-sm-12 col-md-6">
+      <div class="btn-group btn-block float-center" role="group" aria-label="">
+        <button type="button" class="btn btn-primary" routerLink="created">
+          <fa-icon [icon]="buttonCreated"></fa-icon>
+          {{ 'Created' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" routerLink="current">
+          <fa-icon [icon]="buttonCurrent"></fa-icon>
+          {{ 'Current' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" routerLink="past">
+          <fa-icon [icon]="buttonPast"></fa-icon>
+          {{ 'Past' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-3 float-right">
+      <div class="row justify-content-end">
+        <div class="col-md-auto col-sm-12">
+          <button type="button" class="btn btn-success btn-block float-right" routerLink="create">
+            <fa-icon [icon]="buttonCreate"></fa-icon>
+            {{ 'Create meeting' | translate }}
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>

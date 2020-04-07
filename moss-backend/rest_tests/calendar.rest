@@ -1,0 +1,22 @@
+### POST
+POST http://127.0.0.1:3000/calendars
+Content-Type: application/json
+
+{
+  "name": "Test Calendar",
+  "access_identifier": "somereallylongstringyeysomeaccessidentifier",
+  "type": "ICS"
+}
+
+### Add member to group
+PATCH http://127.0.0.1:3000/groups/5dc6b617da298652c075875a
+Content-Type: application/json
+
+{
+  "members": ["5dc6b104f1142921f0ecf7cc", "5dc2eaab85369959c8b19684"]
+}
+
+### Delete group
+DELETE http://127.0.0.1:3000/groups/5dc6b617da298652c075875a
+
+

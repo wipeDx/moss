@@ -1,0 +1,10 @@
+.fix-borders {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  margin-left: -1px;
+}
+
+.fix-padding {
+  padding-left: 0px;
+  padding-right: 0px;
+}

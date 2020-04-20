@@ -17,8 +17,8 @@ declare var $: any;
 })
 export class ChangeCredentialsComponent implements OnInit {
 
-  @ViewChild(TwoFactorEnableComponent, {static: false}) modal2FAEnable: TwoFactorEnableComponent;
-  @ViewChild(TwoFactorDisableComponent, {static: false}) modal2FADisable: TwoFactorDisableComponent;
+  @ViewChild(TwoFactorEnableComponent) modal2FAEnable: TwoFactorEnableComponent;
+  @ViewChild(TwoFactorDisableComponent) modal2FADisable: TwoFactorDisableComponent;
 
   iconSave = faSave;
   profileCredentials: FormGroup;

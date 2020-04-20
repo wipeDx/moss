@@ -17,7 +17,7 @@ import { faUserFriends, faCalendarCheck, faCalendarTimes, faCaretSquareUp, faCar
 })
 export class MeetingsViewComponent implements OnInit {
 
-  @ViewChild(MeetingsViewCalendarComponent, {static: false}) calendar: MeetingsViewCalendarComponent; 
+  @ViewChild(MeetingsViewCalendarComponent) calendar: MeetingsViewCalendarComponent; 
 
   iconDetailsHide = faCaretSquareUp;
   iconDetailsShow = faCaretSquareDown;

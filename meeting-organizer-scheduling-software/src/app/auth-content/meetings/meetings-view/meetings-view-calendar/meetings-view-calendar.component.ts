@@ -23,7 +23,7 @@ export class MeetingsViewCalendarComponent implements OnInit, AfterViewInit {
 
   eventToEdit: Timeslot;
 
-  @ViewChild('calendar', {static: false}) calendarComponent: FullCalendarComponent; // the #calendar in the template
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent; // the #calendar in the template
   locales = [enGbLocale, deLocale];
   calendarApi: Calendar;
   aspectRatio: number;
@@ -33,7 +33,7 @@ export class MeetingsViewCalendarComponent implements OnInit, AfterViewInit {
     bootstrapPlugin
   ];
 
-  @ViewChild(ModalTimeslotEditComponent, {static: false}) timeslotModal: ModalTimeslotEditComponent;
+  @ViewChild(ModalTimeslotEditComponent) timeslotModal: ModalTimeslotEditComponent;
 
   @Input() calendarEvents: Timeslot[];
   @Input() timeRange: any;

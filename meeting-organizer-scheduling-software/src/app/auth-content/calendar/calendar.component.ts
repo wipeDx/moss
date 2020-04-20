@@ -21,8 +21,8 @@ import { AlertService } from 'src/app/services/alert/alert.service';
 })
 export class CalendarComponent implements AfterViewInit {
 
-  @ViewChild('calendar', {static: false}) calendarComponent: FullCalendarComponent; // the #calendar in the template
-  @ViewChild(ModalTimeslotEditComponent, {static: false}) modalTimeslotEditor: ModalTimeslotEditComponent;
+  @ViewChild('calendar') calendarComponent: FullCalendarComponent; // the #calendar in the template
+  @ViewChild(ModalTimeslotEditComponent) modalTimeslotEditor: ModalTimeslotEditComponent;
 
   locales = [enGbLocale, deLocale];
 

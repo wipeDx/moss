@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { MsalService } from '@azure/msal-angular';
 import { AlertService } from '../../alert/alert.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../user/user.service';
@@ -14,7 +13,6 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class MicrosoftService {
 
   constructor(
-    private msalService: MsalService,
     private alertService: AlertService,
     private userService: UserService,
     private authService: AuthService,
